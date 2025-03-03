@@ -14,7 +14,7 @@ public class SundropElixir implements SpellEffect{
     public void highlightValidTargets(ActorRef out, GameState gameState, Tile tile) {
         gameState.clearAllHighlights(out);
         // Get all AI-controlled unit tiles from GameState
-        for (Tile currentTile : gameState.getTilesOccupiedByEnemyPlayer()) {
+        for (Tile currentTile : gameState.getTilesOccupiedByCurrentPlayer()) {
             Unit unit = gameState.getBoard().getUnitOnTile(currentTile);
 
             // Check if the unit is NOT the AI's avatar and is not at full health
@@ -27,16 +27,10 @@ public class SundropElixir implements SpellEffect{
 
     @Override
     public void applyEffect (ActorRef out, GameState gameState, Tile targetTile) {
+
         Unit unit = gameState.getBoard().getUnitOnTile(targetTile);
-
-        // Exclude AI avatar from healing
-        if (unit == null || unit.isAvatar() || unit.getOwner() != gameState.getOpponentPlayer()
-                || unit.getCurrentHealth() == unit.getMaxHealth()) {
-            return;
-        }
-
-        int healAmount = 4;
-        unit.heal(healAmount);
+        int amount = 4;
+        unit.heal(amount);
 
         // Update the UI to reflect the new health
         BasicCommands.setUnitHealth(out, unit, unit.getCurrentHealth());

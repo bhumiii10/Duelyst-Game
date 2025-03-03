@@ -201,8 +201,10 @@ public class Unit {
 	}
 
 	public void heal(int amount) {
+		System.out.println("Before healing: " + currentHealth );
 		currentHealth += amount;
 		if (currentHealth > maxHealth) currentHealth = maxHealth;
+		System.out.println("After healing: " + currentHealth );
 	}
 
 	public boolean hasMoved() {
